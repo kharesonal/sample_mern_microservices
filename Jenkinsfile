@@ -4,6 +4,7 @@ pipeline {
     environment {
         AWS_ACCOUNT_ID = '975050024946'
         AWS_REGION = 'ap-northeast-3'
+	GIT_REPO = "https://git-codecommit.ap-northeast-3.amazonaws.com/v1/repos/sonal-repo"
         ECR_REPO_BACKEND_HELLO = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/sonal-mern-helloservice"
         ECR_REPO_BACKEND_PROFILE = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/sonal-mern-profileservice"
         ECR_REPO_FRONTEND = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/sona-mern-frontendservice"
@@ -14,23 +15,9 @@ pipeline {
 // https://git-codecommit.ap-northeast-3.amazonaws.com/v1/repos/sonal-repo
 
     stages {
-        stage('Checkout Code from CodeCommit') {
+        stage('Checkout Code') {
             steps {
-                script {
-                    // Checkout code from CodeCommit repository
-                    sh '''
-			git config --global credential.helper "!aws.cmd codecommit credential-helper $@"
-			git config --global credential.UseHttpPath true
-                    '''
-                    // credentialsId: 'code-commit-credential',
-                    git branch: "${CODECOMMIT_BRANCH}",
-                        credentialsId: 'code-commit-credential',
-                        url: "https://git-codecommit.${AWS_REGION}.amazonaws.com/v1/repos/${CODECOMMIT_REPO}"
-
-                    sh '''
-                    ls
-                    '''    
-                }
+                git branch: 'main', url: "${env.GIT_REPO}"
             }
         }
 
