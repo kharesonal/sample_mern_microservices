@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  hello:
+    image: sonalsrivastava1189/mern-services:helloservice
+    build:
+      context: ./backend/helloService
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3001"
+  profile:
+    image: sonalsrivastava1189/mern-services:profileservice
+    build:
+      context: ./backend/profileService
+      dockerfile: Dockerfile
+    ports:
+      - "3004:3002"
+  frontend:
+    image: sonalsrivastava1189/mern-services:frontendservice
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - hello
+      - profile
