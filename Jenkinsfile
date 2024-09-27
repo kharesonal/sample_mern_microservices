@@ -19,8 +19,8 @@ pipeline {
                 script {
                     // Checkout code from CodeCommit repository
                     sh '''
-                    git config --global credential.helper '!aws codecommit credential-helper $@'
-                    git config --global credential.UseHttpPath true
+			git config --global credential.helper "!aws.cmd codecommit credential-helper $@"
+			git config --global credential.UseHttpPath true
                     '''
                     // credentialsId: 'code-commit-credential',
                     git branch: "${CODECOMMIT_BRANCH}",
