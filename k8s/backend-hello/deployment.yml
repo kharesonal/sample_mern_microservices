@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloservice-deploy
+  namespace: backend-hello
+spec:
+  selector:
+    matchLabels:
+      app: helloservice-deploy
+  template:
+    metadata:
+      labels:
+        app: helloservice-deploy
+    spec:
+      containers:
+      - name: helloservice-deploy
+        image: public.ecr.aws/f8g8h5d4/sonal-mern-helloservice
+        env:
+        - name: PORT
+          value: "3001"
+        ports:
+        - containerPort: 3001

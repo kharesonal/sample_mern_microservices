@@ -1,0 +1,10 @@
+helloService:
+  image: public.ecr.aws/f8g8h5d4/sonal-mern-helloservice
+  port: 3001
+
+profileService:
+  image: public.ecr.aws/f8g8h5d4/sonal-mern-profileservice
+  port: 3002
+
+frontend:
+  image: public.ecr.aws/f8g8h5d4/sona-mern-frontendservice

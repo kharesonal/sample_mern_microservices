@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: frontend-mern
+  labels:
+    app: mernmicro
+data:
+  REACT_APP_BACKEND_HELLO_URL: "http://hello-backend-service:3001"
+  REACT_APP_BACKEND_PROFILE_URL: "http://profile-backend-service:3002"

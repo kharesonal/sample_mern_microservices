@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: profileservice-deploy
+  namespace: backend-profile
+spec:
+  selector:
+    matchLabels:
+      app: profileservice-deploy
+  template:
+    metadata:
+      labels:
+        app: profileservice-deploy
+    spec:
+      containers:
+      - name: profileservice-deploy
+        image: public.ecr.aws/f8g8h5d4/sonal-mern-profileservice
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: profile-secret
+              key: MONGO_URI
+        - name: PORT
+          value: "3002"
+        ports:
+        - containerPort: 3002

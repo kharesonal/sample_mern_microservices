@@ -448,13 +448,13 @@ def create_auto_scaling_group(asg_client, asg_name, launch_configuration_name, v
 def main():
     try:
         required_ports = {22, 3000, 3001, 80, 4411}
-        key_pair_name = 'sonal-instance.pem'
-        ami_name = 'AMIImageofMernserver'
+        key_pair_name = 'sonal-instance'
+        ami_name = 'AMISonalMern'
         lb_name = 'mern-load-balancing'
-        asg_name = 'MERNAppASG'
+        asg_name = 'SonalASG'
         launch_configuration_name = 'MERNAppLaunchConfiguration'
         instance_type = 't3.micro'
-        session = boto3.Session(profile_name='profile1', region_name="eu-north-1")
+        session = boto3.Session(profile_name='profile1', region_name="ap-northeast-3")
         ec2_client = session.client('ec2')
         elbv2_client = session.client('elbv2')
         asg_client = session.client('autoscaling')
@@ -471,9 +471,6 @@ def main():
             sg_id = create_security_group(ec2_client, vpc_id)
 
         update_default_security_group(ec2_client, required_ports, current_ports, sg_id)
-
-        with open('./userdata_shell.sh', 'r') as userdata_file:
-            user_data_script = userdata_file.read()
 
         subnet_id = get_subnet_id(ec2_client, vpc_id)
 
@@ -505,8 +502,6 @@ def main():
                 print(f"AMI {ami_id} is now available.")
 
         secondary_instance_id = check_ec2_instance(ec2_client, servername='secondaryserver')
-        with open('./userdata_shell_secondary.sh', 'r') as userdata_file:
-            user_data_script = userdata_file.read()
         if secondary_instance_id is None:
             print("Secondary server instance not found, creating one...")
             secondary_instance_id = create_ec2_instance(ec2_client, key_pair_name, sg_id, ami_id, user_data_script, subnet_id[0], servername='secondaryserver')

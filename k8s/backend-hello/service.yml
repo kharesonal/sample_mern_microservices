@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloservice
+  namespace: backend-hello
+spec:
+  selector:
+    app: helloservice-deploy
+  ports:
+  - port: 3001
+    targetPort: 3001

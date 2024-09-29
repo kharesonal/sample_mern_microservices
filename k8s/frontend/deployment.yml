@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: frontendmern
+spec:
+  selector:
+    matchLabels:
+      app: mernmicro
+  template:
+    metadata:
+      labels:
+        app: mernmicro
+    spec:
+      containers:
+      - name: frontend-deployment
+        image: public.ecr.aws/f8g8h5d4/sona-mern-frontendservice
+        env:
+        - name: REACT_APP_BACKEND_HELLO_URL
+          valueFrom:
+            configMapKeyRef:
+              name: frontend-config
+              key: REACT_APP_BACKEND_HELLO_URL
+        - name: REACT_APP_BACKEND_PROFILE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: frontend-config
+              key: REACT_APP_BACKEND_PROFILE_URL
+        ports:
+        - containerPort: 80
