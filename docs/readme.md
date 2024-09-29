@@ -135,11 +135,14 @@ Step 5: **Continuous Integration with Jenkins**
 - Set up jobs to build and push Docker images to ECR.
 - Configure triggers for new commits in CodeCommit.
 
+![Screenshot 2024-09-29 122835](https://github.com/user-attachments/assets/c24718d9-2d86-4f9f-a9bc-92a3da20bae7)
+  
+
 Step 6:**Infrastructure as Code (IaC) with Boto3**
 
 1.**Define Infrastructure:**
 
-Example Python Script: vpc.py
+Example Python Script: 
 
 ```
 import boto3
@@ -151,7 +154,7 @@ ec2 = boto3.client('ec2')
 
 2.**Deploying Backend Services**
 
-Deploy Backend on EC2 with ASG: asg.py
+Deploy Backend on EC2 with ASG:
 
 Example Python Script:
 ```
@@ -163,7 +166,7 @@ asg = boto3.client('autoscaling')
 
 3.**Networking and DNS Setup**
 
-Create Load Balancer: alb.py
+Create Load Balancer: 
 
 Example Python Script:
 ```
@@ -175,9 +178,9 @@ Configure DNS:
 
 Use cloudflare DNS service to set up DNS for your application.
 
-4. **Deploying Frontend Services**
+4.**Deploying Frontend Services**
 
-Deploy Frontend on EC2: ec2_instance.py
+Deploy Frontend on EC2:
 
 Example Python Script:
 
@@ -185,34 +188,54 @@ import boto3
 
 ec2 = boto3.client('ec2')
 
-#**Launch EC2 instances for the frontend**
-AWS implimentation
-all the scripts are added in boto3 folder and for managing them there is infra.py script
+Step 6. **Kubernetes (EKS) Deployment**
 
-AWS Lambda Deployment
-Backup Database Script:
+1.**Create EKS Cluster:**
+```
+eksctl create cluster \
+  --name my-eks-cluster \
+  --version 1.21 \
+  --region us-west-2 \
+  --nodegroup-name standard-workers \
+  --node-type t3.medium \
+  --nodes 3 \
+  --nodes-min 1 \
+  --nodes-max 4 \
+  --managed
+```
+![Screenshot 2024-09-29 141549](https://github.com/user-attachments/assets/f76ed2ae-d695-4fb0-b3a0-ac9a311dbf19)
 
-dblambdabackup.py.py:
+2.**Deploy Application with Helm:**
 
-import boto3
-import pymongo
-import datetime
+`
+helm create mern-app
+`
 
-def lambda_handler(event, context):
-    # Backup logic
-
-
-
-step 10.Monitoring and Logging
+Example Helm Chart Files:
+```
+Chart.yaml
+values.yaml
+templates/deployment.yaml
+templates/service.yaml
+Deploy with Helm:
+```
+```
+helm package mernmicrohelm
+helm install mern-app-release ./mern-app-0.1.0.tgz
+```
+Step 7.**Monitoring and Logging**
 
  - Set Up Monitoring with CloudWatch:
 
-Step 11. Final Checks
+Step 8. **Final Checks**
 
  - Validate the Deployment:
  - Ensure that the MERN application is accessible.
  - Test both frontend and backend functionality.
  - Check monitoring and logging for any issues.
+   
+   ![Screenshot 2024-09-26 113452](https://github.com/user-attachments/assets/5b260b63-d923-4045-8391-b36bf8b735d8)
+
 
    ![Screenshot 2024-09-26 203116](https://github.com/user-attachments/assets/e7a27d62-664a-4b42-a110-144d766a8987)
 
